@@ -1,12 +1,14 @@
 import 'byte.grm' as bytelib;
 import 'arpabet.grm' as arpabet;
-arpa = SymbolTable['arpabet.sym'];
-Pronounce = StringFile['cmudict.txt', byte, arpa];
+#arpa = SymbolTable['arpabet.sym'];
+#Pronounce = StringFile['../data/cmudict.txt', byte, arpa];
+Pronounce = StringFile['../data/cmudict.txt']; # FOR OG
 Sigma = bytelib.kGraph | bytelib.kSpace;
 # StressPattern = CDRewrite[(Sigma - bytelib.kDigit) : "", "","",arpa*,'sim','obl'];
-# Dacytl = ("1" | "2") "0" "0";   # what's a dactyl? look it up!
-Dacytl = arpabet.Stressed arpabet.Unstressed arpabet.Unstressed;   # what's a dactyl? look it up!
-# export Results = Optimize[Project[Pronounce @ StressPattern @ (Dacytl*), 'input']];
-export Results = Optimize[Project[Pronounce @ (Dacytl*), 'input']];
+StressPattern = CDRewrite[(Sigma - bytelib.kDigit) : "","","",Sigma*,'sim','obl']; #FOR OG
+export Dacytl = ("1" | "2") "0" "0";   # FOR OG
+#Dacytl = arpabet.Stressed arpabet.Unstressed arpabet.Unstressed;
+export Results = Optimize[Project[Pronounce @ StressPattern @ (Dacytl*), 'input']]; #FOR OG
+#export Results = Optimize[Project[Pronounce @ (Dacytl*), 'input']];
 export ListDactyl = "" : Dacytl;
 export ListResults = "" : Results;
