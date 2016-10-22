@@ -25,7 +25,7 @@ def checkInputs(inputs, grm, fst, symtab = ""):
 
 
 def main():
-    inputs = ["00011111", "0101"]
+    inputs = ["elephant", "howdy", "bicycle animal"]
     if len(sys.argv) < 4:
         numout = "100"
         symtab = ""
