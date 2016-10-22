@@ -9,27 +9,28 @@ def getRewrites(output):
         if len(line) == 3:
             rewrites.append(line[2])
         elif len(line) == 2 and line[1] == " Rewrite failed.":
-            rewrites.append(None)
+            rewrites.append("")
     return rewrites
 
-def main():
-    inputs = ["00011111", "0101"]
-    if len(sys.argv) < 5:
-        numout = "100"
-        symtab = ""#"--input_mode=byte.sym --output_mode=byte.sym"
-    else:
-        numout = sys.argv[3]
-        symtab = sys.argv[4]
-    thraxcmd = "thraxmakedep --save_symbols " + sys.argv[1] + ".grm && make && thraxrewrite-tester --print_rules=false --far=" + sys.argv[1] +".far " + symtab  + " --noutput="+ numout  + " --rules="+ sys.argv[2]
+
+def checkInputs(inputs, grm, fst, symtab = ""):
+    numout = "1"
+    thraxcmd = "thraxmakedep --save_symbols " + grm + ".grm && make && thraxrewrite-tester --print_rules=false --far=" + grm +".far " + symtab  + " --noutput="+ numout  + " --rules="+ fst
     p = Popen(thraxcmd, stdout = PIPE, stdin = PIPE, shell=True)
     output, error = p.communicate(input=b"\n".join(inputs))
     answers = getRewrites(output)
     for i in range(len(answers)):
-        if answers[i] == None:
-            answer = ""
-        else:
-            answer = answers[i]
-        print inputs[i] + " : " + answer
-    
+        print inputs[i] + " : " + answers[i]
+    return answers
+
+
+def main():
+    inputs = ["00011111", "0101"]
+    if len(sys.argv) < 4:
+        numout = "100"
+        symtab = ""
+    else:
+        symtab = sys.argv[3]
+    checkInputs(inputs, sys.argv[1], sys.argv[2])
 
 main()
