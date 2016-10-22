@@ -8,7 +8,7 @@ def getRewrites(output):
         line = line.split(":")
         if len(line) == 3:
             rewrites.append(line[2])
-        elif len(line) == 2:
+        elif len(line) == 2 and line[1] == " Rewrite failed.":
             rewrites.append(None)
     return rewrites
 
@@ -20,14 +20,10 @@ def main():
     else:
         numout = sys.argv[3]
         symtab = sys.argv[4]
-    thraxcmd = "echo " + "\n".join(inputs) + " | thraxmakedep --save_symbols " + sys.argv[1] + ".grm && make && thraxrewrite-tester --print_rules=false --far=" + sys.argv[1] +".far " + symtab  + " --noutput="+ numout  + " --rules="+ sys.argv[2]
-    p = Popen(thraxcmd, stdout = PIPE, shell=True)
-    output, error = p.communicate()
-    print "********** OUTPUT ********"
-    print output.split("\n")
-    print "********** OUTPUT ********"
+    thraxcmd = "thraxmakedep --save_symbols " + sys.argv[1] + ".grm && make && thraxrewrite-tester --print_rules=false --far=" + sys.argv[1] +".far " + symtab  + " --noutput="+ numout  + " --rules="+ sys.argv[2]
+    p = Popen(thraxcmd, stdout = PIPE, stdin = PIPE, shell=True)
+    output, error = p.communicate(input=b"\n".join(inputs))
     answers = getRewrites(output)
-    print answers
     for i in range(len(answers)):
         if answers[i] == None:
             answer = ""
