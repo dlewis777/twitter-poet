@@ -1,0 +1,7 @@
+import 'arpabet.grm' as arpabet;
+arpa = SymbolTable['arpabet.sym'];
+Pronounce = StringFile['cmudict.txt', byte, arpa];
+
+export Ending = (arpabet.Phoneme:"".arpa)* arpabet.Stressed (arpabet.Unstressed|arpabet.Consonant)*;
+export WordEnding = Optimize[Pronounce @ Ending];
+export InvWordEnding = Invert[WordEnding];

@@ -1,0 +1,68 @@
+import 'byte.grm' as bytelib;        # load a simple grammar (.grm)
+ByteSigma = (bytelib.kSpace | bytelib.kGraph);  # printable characters
+ByteSigmaStar = Optimize[ByteSigma*];
+vocab = SymbolTable['entrain.sym'];  # load model's symbol table (.sym)
+
+
+Endings = "es" | "ed" | "er" | "ish" | "y" | "ful" | "ist";
+
+
+num2 = ("a" | "b" | "c") : "2";
+num3 = ("d" | "e" | "f") : "3";
+num4 = ("g" | "h" | "i") : "4";
+num5 = ("j" | "k" | "l") : "5";
+num6 = ("m" | "n" | "o") : "6";
+num7 = ("p" | "q" | "r" | "s") : "7";
+num8 = ("t" | "u" | "v") : "8";
+num9 = ("w" | "x" | "y" | "z") : "9";
+num0 = (" ") : "0";
+export Tele= (num2 | num3 | num4| num5 | num6 | num7 | num8 | num9 | num0)*;
+export Telephone = CDRewrite[Tele, ByteSigmaStar, ByteSigmaStar, ByteSigmaStar, 'ltr', 'obl'];
+export InvTele = Invert[Telephone];
+
+ch0 = ("0":"0" <.1>) | ("0" :"00" <.5>) | ("0":"8" <.1>);
+ch3 = ("3":"3" <.7>)|("3": "33" <.7>) | ("3":"2" <.9>) | ("3":"6" <.9>);
+ch2 = ("2":"2" <.7> )|("2":"22" <.7> )| ("2":"1" <.8>) | ("2":"3" <.7>) | ("2":"5" <.65>);
+ch4 = ("4":"4" <.7> )|("4": "44" <.7>) | ("4":"1" <.6>) |("4": "7" <.6>) |("4": "5" <.5>);
+ch5 = ("5": "5" <.7>) |("5": "55" <.7> )| ("5":"2" <1.2>) |("5": "7" <1.2>) |("5": "8" <1.2>) |("5": "4" <1.2>);
+ch6 = ("6":"6" <.2> )| ("6":"66" <.7> )| ("6":"3" <.7> )| ("6":"5" <.6>) |("6": "9" <.7>);
+ch7 = ("7":"7" <.2> )|("7": "77" <.7>) |("7": "4" <.8>) |("7": "8" <.7>);
+ch8 = ("8":"8" <.2> )| ("8":"88" <.7> )|("8": "5" <.6> )| ("8":"7" <.8> )| ("8":"9" <.8>);
+ch9 = ("9": "9" <.2> )|("9": "99" <.7>) |("9": "8" <.7>) |("9": "6" <.8>);
+chdel = bytelib.kDigit: "" <.1>;
+export badphone = (ch2 | ch3 | ch4 | ch5 | ch6 | ch7 | ch8 |ch9 | ch0 | chdel|bytelib.kAlpha | bytelib.kPunct)*;
+
+export Tinyphone = Telephone @ badphone;
+export InvBadPhone = Invert[badphone];
+export InvTinyPhone = Invert[Tinyphone];
+
+typo = ("a":"s" <.5>)|("a" <.3>) | ("b" <.3>)|("b":"v" <.6>)|("b":"n" <.6>) | ("c" <.3>)|("c":"x" <.6> )|("c":"n" <.6>) | ("d" <.3>)|("d":"s" <.6>)|("d":"f"<.6>) | ("e" <.3>)|("e":"r"<.5>) | ("k"<.3>)|("k":"j" <.5>)|("k":"l"<.3>) | ("l"<.3>)|("l":"k"<.5>) | ("m"<.3>) | ("m":"n"<.5>) | ("o"<.3>)|("o":"p"<.3>)|("o":"i"<.3>) | ("p"<.3>)|("p":"o"<.4>) | ("r"<.3>)|("r":"t"<.4>) | ("s"<.3>)|("s":"d"<.5>) | ("t"<.3>)|("t":"r"<.5>)|("t":"y"<.6>) | ("u"<.3>)|("u":"y"<.5>)|("u":"i"<.6>) | ("v"<.3>)|("v":"c"<.4>)|("v":"b"<.7>) | ("w"<.3>)|("w":"e"<.5>) | ("x"<.3>)|("x":"c"<.5>) | ("y"<.3>)|("y":"u"<.5>)|("y":"t"<.6>) | ("z"<.3>)|("z":"x"<.5>) ;
+export Typos = CDRewrite[(typo <.4> )|( ByteSigmaStar <.5>), "", "", ByteSigmaStar, 'ltr' , 'opt'];
+
+
+
+RandomChar = bytelib.kGraph <4.54>;
+RandomWord = Optimize[(RandomChar (RandomChar <.1>)* ) <2.3>];
+SpellOOV = "<unk>".vocab :  RandomWord;
+export LM = LoadFst['entrain.fst'];  # load trigram language model (.fst)
+
+Spell = Optimize[StringFile['entrain.alpha', vocab, byte] | SpellOOV];
+
+export CompleteWord = (ByteSigmaStar ("":ByteSigmaStar)) @ Invert[Spell] @ LM;
+
+export DelSpaces = CDRewrite[" ":"", ByteSigmaStar, ByteSigmaStar, ByteSigmaStar, 'ltr', 'obl'];
+export DelSomeSpaces = CDRewrite[" ":"", ByteSigmaStar, ByteSigmaStar, ByteSigmaStar, 'ltr', 'opt'];
+export InvDelSomeSpaces = Invert[DelSomeSpaces];
+
+export DelSuffixes = CDRewrite[ByteSigmaStar (Endings: "" <2>), ByteSigmaStar," ", ByteSigmaStar, 'ltr', 'opt'];
+export InvDelSuffixes = Invert[DelSuffixes];
+
+export InvSpell = Invert[Spell*];
+export SpellText = Spell ("".vocab: " ")?;
+export Generate = LM @ SpellText* @ DelSpaces;
+export PrintText = SpellText | ("<unk>".vocab : "<unk>");
+export InvDel = Invert[DelSpaces];
+export InvSpellText = Invert[SpellText]*;
+export InvLM = Invert[LM];
+export InvLMP = InvLM @ PrintText*;
+

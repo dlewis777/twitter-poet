@@ -1,0 +1,13 @@
+Bit = "0" | "1";
+Bitpp = Bit | "" | " ";
+Digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+export Cross = "a" (("b":"x")* | ("c"+ : "y"*) | ("":"fric")) "a";
+export CrossOpt = Optimize["a" (("b":"x")* | ("c"+ : "y"*) | ("":"fric")) "a"];
+export BitFlip1 = (("1":"0")|("0":"1"))*;
+export BitFlip2 = CDRewrite[BitFlip1,"" , "", Digit*, 'ltr', 'obl'];
+export Parity1 = (Bit*:"")("1"|"0");
+export Parity2 = CDRewrite[(Bit*:""), "", Bit+, Bit*, 'rtl', 'obl'];
+export Parity3 = Reverse[CDRewrite[(Bit*:""), Bit+, "", Bit*, 'rtl', 'obl']];
+export UnParity = Invert[Parity2];
+splittemp = Bit* ("": " ") Bit*;
+export Split = Optimize[CDRewrite["":" ", Bit*, Bit*, Bitpp*, 'ltr', 'opt']];
