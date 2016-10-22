@@ -11,6 +11,7 @@ def todict():
 
 
 def countSyllables(word):
+	word = word.lower()
 	syllabeCount = 0
 	chars = set('012')
 	if word in cmudict:
@@ -21,22 +22,26 @@ def countSyllables(word):
 
 
 def cutToSize(chunk, size):
-	words = tweet.split()
+	words = chunk.split()
 	chunks = []
 	head = 0
-	tail = 1
+	tail = 0
 	syllables = 0
-	while tail <= len(tweet):
-		syllables += countSyllables(tweet[tail -1 ])
+	print words
+	while max(head, tail) < len(words):
+		print "head: " + str(head) +" tail: " + str(tail) + " syllables: " + str(syllables) + " desired: " + str(size)
 		if syllables == size:
-			chunks.append("".join(tweet[head:tail]))
+			chunks.append(" ".join(words[head:tail]))
+			syllables -= countSyllables(words[head])
 			head += 1
 		if syllables < size:
+			print "added: " + words[tail] + " size: " + str(countSyllables(words[tail]))
+			syllables += countSyllables(words[tail])
 			tail += 1
-			syllables += countSyllables(tweet[tail - 1])
 		else:
+			print "removed: " + words[head] + " size: " + str(countSyllables(words[head]))
+			syllables -= countSyllables(words[head])
 			head += 1
-			syllables -= countSyllables(tweet[head])
 	return chunks
 
 
@@ -78,21 +83,15 @@ def tweet2chunk(tweet):
 
 # Input a string that is equal to the text of a tweet.
 # Returns a string of numbers equal to the stresses of the letters
-def l2n(chunk, size):
-
-	if len(chunk) < size:
-
-		return None
-	elif len(chunk) >= size:
-
-		chunk = chunk[0:size]
+def l2n(chunk):
 
 	stress = ""
 
 	totalw = []
 	for word in chunk.split():
 		if '#' in word:
-			temp = re.sub(r'[A-Z]',r'\1', word)
+			pat = re.compile('([A-Z])')
+			temp = pat.sub(r' \1', word).strip()
 			for thing in temp:
 				totalw.append(thing)
 
