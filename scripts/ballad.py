@@ -1,7 +1,9 @@
 import rhyme
 import random
-
-def generate(eight, six):
+#n is number of stanza
+# eight is list of 8 sylable phrases
+# six is list of 6 sylable phrases
+def generate(eight, six, n):
 
 	eightrhyme = rhyme.find_rhyme(eight)
 	sixrhyme = rhyme.find_rhyme(six)
@@ -9,7 +11,7 @@ def generate(eight, six):
 	tempe = eightrhyme
 	temps = eightrhyme
 	stanza = []
-	for i in range(4):
+	for i in range(n):
 		l1 = random.choice(tempe.keys())
 		tempe.remove(l1)
 		l2 = random.choice(temps.keys())
