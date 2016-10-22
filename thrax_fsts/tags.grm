@@ -1,3 +1,0 @@
-export NPTags = Optimize["Art" | "Quant" | "Adj"| "Noun" | "Nmod"];
-export OtherTags = Optimize["Verb" | "Foo" | "Bar" | "Baz"];
-export Tags = Optimize[NPTags | OtherTags];
