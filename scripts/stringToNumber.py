@@ -1,11 +1,11 @@
 import string
 cmudict = {}
 tweetsent = []
-def todict(file):
-	f1 = open('cmudict.txt', 'r+w')
+def todict():
+	f1 = open('../data/cmudict.txt', 'r+w')
 	 
-	 for line in f1:
-	 	cmudict[line.split()[0]] = line.split()[1:]
+	for line in f1:
+		cmudict[line.split()[0]] = line.split()[1:]
 
 def tweet2chunk(tweet):
 
@@ -14,6 +14,7 @@ def tweet2chunk(tweet):
 	words = tweet.split()
 	periods = []
 	hashtag = []
+
 	for i in range(len(words)):
 
 		if '.' in words[i]:

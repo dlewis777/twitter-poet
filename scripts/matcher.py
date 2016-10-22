@@ -7,11 +7,13 @@ ANAPESTIC = "001"
 DACTYLIC = "100"
 
 METERS = {
-"IAMBIC": IAMBIC
+"ANY" : ".",
+"IAMBIC": IAMBIC,
 "TROCHAIC" : TROCHAIC,
 "SPONDAIC" : SPONDAIC,
 "ANAPESTIC" : ANAPESTIC,
 "DACTYLIC" : DACTYLIC,
+"IAMBIC_ANY" : IAMBIC + "*",
 "IAMBIC_PENTAMETER" : IAMBIC * 5,
 "TROCHAIC_TETRAMETER" : TROCHAIC *4,
 "ANAPESTIC_TRIMETER" : ANAPESTIC*3,
@@ -26,13 +28,15 @@ class Matcher():
 		self.string_pattern = pattern
 	def matches(self, string):
 		matched = self.pattern.match(string)
-		return matched.start() - matched.end() == len(string):
+		if not matched:
+			return False
+		return (matched.start() - matched.end()) == len(string)
 
 	def findMatch(self, string):
 		return (matched.start(), matched.end())
 
 	def getSyllableCount(self):
-		return len(self.string_pattern))
+		return len(self.string_pattern)
 		
 	
 		
