@@ -34,11 +34,14 @@ def main():
 	valid_chunks = []
 	for tweet in tweets:
 		chunks = stringToNumber.tweet2chunk(tweet)
+		#print tweet
+		#print chunks
+		#print ""
+		#print ""
 		for chunk in chunks:
-			if pattern.matches(chunk):
+			if pattern.matches(stringToNumber.l2n(chunk)):
 				valid_chunks.append(chunk)
 	print valid_chunks
-
 
 
 
