@@ -49,13 +49,16 @@ def l2n(chunk):
 
 	stress = ""
 	for word in chunk.split():
-		''.join(e for e in word if e.isalnum())
+		word = ''.join(e for e in word if e.isalnum())
 		word.strip('1234567890')
+		word = word.lower()
 		if word in cmudict:
 			for phone in cmudict[word]:
 				stripped = phone.strip('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 			#phone = cmudict[word].strip('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-				stress += phone
+				if stripped == "2":
+					stripped = "1"
+				stress += stripped
 
 	return stress
 
