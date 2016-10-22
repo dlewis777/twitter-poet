@@ -3,7 +3,7 @@ import re
 cmudict = {}
 tweetsent = []
 def todict():
-	f1 = open('../data/cmudict.txt', 'r+w')
+	f1 = open('cmudict.txt', 'r+w')
 	 
 	for line in f1:
 		cmudict[line.split()[0]] = line.split()[1:]

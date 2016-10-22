@@ -12,33 +12,48 @@ vowels = ['AH0', 'IH2', 'EY1', 'AA1', 'ER0', 'EH0', 'AO2', 'AA0',
 def find_rhyme(correct):
 
 	cmudict = s2n.todict()
-
+	
 	for sentence in correct:
 
 		rhymdict[sentence] = []
 
-		final = sentence[-1]
+		final = sentence.split()[-1]
 		syl = cmudict[final]
+		
 		finalsyl = ''
+		ending = []
 		for x in reversed(syl):
 			if x in vowels:
 				finalsyl = x.strip('012')
+				ending.append(finalsyl)
 				break
-
+			else:
+				ending.append(x)
 		for other in correct:
 
 			if other is not sentence:
 
-				otherfinal = other[-1]
+				otherfinal = other.split()[-1]
+				print(otherfinal)
+				ofp = cmudict[otherfinal]
 				othersyl = ''
-				for y in reversed(otherfinal):
+				ending2 = []
+				for y in reversed(ofp):
 					if y in vowels:
 						othersyl = y.strip('012')
+						ending2.append(othersyl)
+						break
+					else:
+						ending2.append(y)
 
-				if finalsyl is othersyl:
+				if ' '.join(ending2) == ' '.join(ending):
 
 					rhymdict[sentence].append(other)
 
 	return rhymdict
 
-
+if __name__ == '__main__':
+	
+	stuff = ['a cat', 'a bat','we pant', 'there is a slant']
+	k = find_rhyme(stuff)
+	print(k)
