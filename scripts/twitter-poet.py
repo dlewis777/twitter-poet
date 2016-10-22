@@ -23,6 +23,9 @@ def makeArgs():
 
 
 def main():
+	#patterns = ["0101010101"]
+	#pattern = matcher.Matcher(matcher.METERS["IAMBIC_PENTAMETER"])
+	#print pattern.matches(patterns[0])
 	tweets = []
 	stringToNumber.todict()
 	parser = makeArgs()
@@ -37,10 +40,12 @@ def main():
 		#print tweet
 		#print chunks
 		#print ""
-		#print ""
 		for chunk in chunks:
 			if pattern.matches(stringToNumber.l2n(chunk)):
 				valid_chunks.append(chunk)
+			#print chunk + " : " + stringToNumber.l2n(chunk)
+		#print ""
+
 	print valid_chunks
 
 

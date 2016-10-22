@@ -9,6 +9,7 @@ DACTYLIC = "100"
 METERS = {
 "ANY" : ".",
 "IAMBIC": IAMBIC,
+"IAMBIC_ANY": IAMBIC+"*",
 "TROCHAIC" : TROCHAIC,
 "SPONDAIC" : SPONDAIC,
 "ANAPESTIC" : ANAPESTIC,
@@ -30,7 +31,11 @@ class Matcher():
 		matched = self.pattern.match(string)
 		if not matched:
 			return False
-		return (matched.start() - matched.end()) == len(string)
+		# print matched.start()
+		# print matched.end()
+		# print len(string)
+		# print matched.start()-matched.end()
+		return (matched.end() - matched.start()) == len(string)
 
 	def findMatch(self, string):
 		return (matched.start(), matched.end())
