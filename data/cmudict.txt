@@ -9664,6 +9664,7 @@ bighorns	B IH1 G HH AO2 R N Z
 bight	B AY1 T
 bigler	B AY1 G AH0 L ER0
 bigley	B IH1 G L IY0
+bigly   B IH1 G L IY0
 biglin	B IH1 G L IH0 N
 biglow	B IH1 G L OW0
 bignell	B IH0 G N EH1 L
