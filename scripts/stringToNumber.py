@@ -1,4 +1,5 @@
 import string
+import re
 cmudict = {}
 tweetsent = []
 def todict():
@@ -45,10 +46,29 @@ def tweet2chunk(tweet):
 
 # Input a string that is equal to the text of a tweet.
 # Returns a string of numbers equal to the stresses of the letters
-def l2n(chunk):
+def l2n(chunk, size):
+
+	if len(chunk) < size:
+
+		return None
+	elif len(chunk) >= size:
+
+		chunk = chunk[0:size]
 
 	stress = ""
+
+	totalw = []
 	for word in chunk.split():
+		if '#' in word:
+			temp = re.sub(r'[A-Z]',r'\1', word)
+			for thing in temp:
+				totalw.append(thing)
+
+		else:
+			totalw.append(word)
+	for word in totalw:
+
+
 		word = ''.join(e for e in word if e.isalnum())
 		word.strip('1234567890')
 		word = word.lower()
