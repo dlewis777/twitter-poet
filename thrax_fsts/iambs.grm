@@ -1,0 +1,13 @@
+import 'byte.grm' as bytelib;
+import 'arpabet.grm' as arpabet;
+arpa = SymbolTable['arpabet.sym'];
+Pronounce = StringFile['cmudict.txt', byte, arpa];
+Sigma = bytelib.kGraph | bytelib.kSpace;
+# StressPattern = CDRewrite[(Sigma - bytelib.kDigit) : "", "","",arpa*,'sim','obl'];
+# Iamb= "0" ("1" | "2");   # what's a dactyl? look it up!
+Iamb = arpabet.Unstressed arpabet.Stressed;   # what's a dactyl? look it up!
+IambPent = Iamb Iamb Iamb Iamb Iamb;
+# export Results = Optimize[Project[Pronounce @ StressPattern @ (Iamb*), 'input']];
+export Results = Optimize[Project[Pronounce @ (IambPent*), 'input']];
+export ListIambPent = "" : IambPent;
+export ListResults = "" : Results;

@@ -15,4 +15,4 @@ api = tweepy.API(auth)
 stuff = api.user_timeline(id = '25073877', count = 100, include_rts = False)
 
 for status in stuff:
-    print status.text + "\n"
+    print status.text.encode('ascii', 'ignore')
