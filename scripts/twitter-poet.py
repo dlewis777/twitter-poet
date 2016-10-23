@@ -34,7 +34,7 @@ def main():
 			line = line.strip()
 			tweets.append(line)
 	pattern = matcher.Matcher(matcher.METERS[parser.meter.upper()])
-	valid_chunks = []
+	valid_chunks = set()
 	for tweet in tweets:
 		chunks = stringToNumber.tweet2chunk(tweet)
 		#print tweet
@@ -44,7 +44,8 @@ def main():
 			subchunks = stringToNumber.cutToSize(chunk, pattern.getSyllableCount())
 			for subchunk in subchunks:
 				if pattern.matches(stringToNumber.l2n(subchunk)):
-					valid_chunks.append(chunk)
+					if not subchunk in valid_chunks:
+						valid_chunks.add(subchunk)
 			#print chunk + " : " + stringToNumber.l2n(chunk)
 		#print ""
 

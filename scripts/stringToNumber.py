@@ -27,19 +27,19 @@ def cutToSize(chunk, size):
 	head = 0
 	tail = 0
 	syllables = 0
-	print words
+	#print words
 	while max(head, tail) < len(words):
-		print "head: " + str(head) +" tail: " + str(tail) + " syllables: " + str(syllables) + " desired: " + str(size)
+		#print "head: " + str(head) +" tail: " + str(tail) + " syllables: " + str(syllables) + " desired: " + str(size)
 		if syllables == size:
 			chunks.append(" ".join(words[head:tail]))
 			syllables -= countSyllables(words[head])
 			head += 1
 		if syllables < size:
-			print "added: " + words[tail] + " size: " + str(countSyllables(words[tail]))
+		#	print "added: " + words[tail] + " size: " + str(countSyllables(words[tail]))
 			syllables += countSyllables(words[tail])
 			tail += 1
 		else:
-			print "removed: " + words[head] + " size: " + str(countSyllables(words[head]))
+		#	print "removed: " + words[head] + " size: " + str(countSyllables(words[head]))
 			syllables -= countSyllables(words[head])
 			head += 1
 	return chunks
