@@ -7,6 +7,38 @@ def todict():
 	 
 	for line in f1:
 		cmudict[line.split()[0]] = line.split()[1:]
+	return cmudict
+
+
+def countSyllables(word):
+	syllabeCount = 0
+	chars = set('012')
+	if word in cmudict:
+		for phone in cmudict[word]:
+			if any((c in chars) for c in phone):
+				syllabeCount += 1
+	return syllabeCount
+
+
+def cutToSize(chunk, size):
+	words = tweet.split()
+	chunks = []
+	head = 0
+	tail = 1
+	syllables = 0
+	while tail <= len(tweet):
+		syllables += countSyllables(tweet[tail -1 ])
+		if syllables == size:
+			chunks.append("".join(tweet[head:tail]))
+			head += 1
+		if syllables < size:
+			tail += 1
+			syllables += countSyllables(tweet[tail - 1])
+		else:
+			head += 1
+			syllables -= countSyllables(tweet[head])
+	return chunks
+
 
 def tweet2chunk(tweet):
 

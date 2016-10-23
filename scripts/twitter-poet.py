@@ -41,8 +41,10 @@ def main():
 		#print chunks
 		#print ""
 		for chunk in chunks:
-			if pattern.matches(stringToNumber.l2n(chunk)):
-				valid_chunks.append(chunk)
+			subchunks = stringToNumber.cutToSize(chunk, pattern.getSyllableCount())
+			for subchunk in subchunks:
+				if pattern.matches(stringToNumber.l2n(subchunk)):
+					valid_chunks.append(chunk)
 			#print chunk + " : " + stringToNumber.l2n(chunk)
 		#print ""
 
