@@ -1,0 +1,114 @@
+(lp0
+S'reporting at the failing @nytimes gets'
+p1
+aS'another generation of'
+p2
+aS'Turnberry in Scotland was a big success'
+p3
+aS'supporters by endorsing pro-war pro-TPP pro-Wall Street'
+p4
+aS'a major rally yesterday'
+p5
+aS'in firing his director of'
+p6
+aS'enjoyed the tour and spending time'
+p7
+aS'the CHARLOTTE NC speech ACROSS the swing'
+p8
+aS'illegal immigration South'
+p9
+aS'declared the winner of the CNMI Rep'
+p10
+aS'the greatest president the world'
+p11
+aS'The era of division is'
+p12
+aS'Marines and military are'
+p13
+aS'the television viewers that'
+p14
+aS'hotel in Honolulu Ill'
+p15
+aS'the best in holding onto his'
+p16
+aS'the litigation is disposed'
+p17
+aS'a special prosecutor to'
+p18
+aS'Another health insurer is'
+p19
+aS'Pacific Partnership and has'
+p20
+aS'a great event in honor of'
+p21
+aS'abandoned his supporters by'
+p22
+aS'attack today reminds the world'
+p23
+aS'Ohio will remember that'
+p24
+aS'avoided prosecution for'
+p25
+aS'the moderator interrupts'
+p26
+aS'the voters will forget the rigged'
+p27
+aS'the Democrats - the system is'
+p28
+aS'@NBCNews refuses to accept the fact'
+p29
+aS'the people of Ohio know'
+p30
+aS'the Trans Pacific Partnership'
+p31
+aS'reaction under pressure was'
+p32
+aS'already beaten you in all'
+p33
+aS'a proven vetting method is'
+p34
+aS'GOP continues to subvert the will'
+p35
+aS'the strong endorsement of the great'
+p36
+aS'the terrorism problem for'
+p37
+aS'about her secret server has'
+p38
+aS'ILLEGAL IMMIGRATION on'
+p39
+aS'dishonest Donna Brazile chokes'
+p40
+aS'illegal immigration back'
+p41
+aS'election is a choice between'
+p42
+aS'suspending immigration from'
+p43
+aS'Nevada Sorry to inform'
+p44
+aS'and grateful for receiving SO'
+p45
+aS'Fraternal Order of Police'
+p46
+aS'the people of Ohio will'
+p47
+aS'In presidential voting so'
+p48
+aS'succeed together President'
+p49
+aS'Convention speaker schedule to'
+p50
+aS'the failing @nytimes story yesterday'
+p51
+aS'beginning Our leadership'
+p52
+aS'the people that were never asked'
+p53
+aS'in Canton for a rally at'
+p54
+aS'The constant interruptions last'
+p55
+aS'the Bible high into the air'
+p56
+a.

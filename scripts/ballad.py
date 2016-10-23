@@ -1,9 +1,16 @@
 import rhyme
 import random
+import pickle
 #n is number of stanza
 # eight is list of 8 sylable phrases
 # six is list of 6 sylable phrases
 def generate(eight, six, n):
+
+	f1 = open('8_dt.txt','r+w')
+	f2 = open('6_dt.txt','r+w')
+
+	pickle.dump(eight, f1)
+	pickle.dump(six, f2)
 
 	eightrhyme = rhyme.find_rhyme(eight)
 	#print '8' ,eightrhyme
@@ -21,8 +28,8 @@ def generate(eight, six, n):
 	temps = sixrhyme
 	stanza = []
 	for i in range(n):
-		print i
-		print tempe.keys()
+		#print i
+		#print tempe.keys()
 		l1 = random.choice(tempe.keys())
 		if l1 in tempe:
 			tempe.pop(l1)
@@ -46,7 +53,7 @@ def generate(eight, six, n):
 				temps[key].remove(l4)
 
 		s = l1 + '\n' + l2 + '\n' + l3 + '\n' + l4
-		print s
+		#print s
 		stanza.append(s)
 
 	return stanza
