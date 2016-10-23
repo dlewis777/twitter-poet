@@ -15,7 +15,7 @@ def makeArgs():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--tweet-file', type=str, required=True, help="File containing tweets to choose from")
 	parser.add_argument("--meter", type=str, required=False, help="The meter for the poem, e.g. iambic")
-	parser.add_argument("--num-lines", type=str, required=False, help="the length of the poem in lines")
+	parser.add_argument("--num-lines", type=int, required=False, help="the length of the poem in lines")
 	parser.add_argument("--form", type=str, required=True, help="form of the poem")
 	args = parser.parse_args()
 	#if not checkArgs(args):
@@ -26,6 +26,7 @@ def makeArgs():
 def getOfMeter(meter, tweets):
 	pattern = matcher.Matcher(meter)
 	valid_chunks = set()
+	i = 0
 	for tweet in tweets:
 		chunks = stringToNumber.tweet2chunk(tweet)
 		for chunk in chunks:
@@ -34,6 +35,9 @@ def getOfMeter(meter, tweets):
 				if pattern.matches(stringToNumber.l2n(subchunk)):
 					if not subchunk in valid_chunks:
 						valid_chunks.add(subchunk)	
+		i += 1
+		if i%50 == 0 :
+			print i
 	return list(valid_chunks)
 
 def generateBallad(tweets):
@@ -55,10 +59,16 @@ def main():
 	tweets = []
 	stringToNumber.todict()
 	parser = makeArgs()
+	i = 0
 	with open(parser.tweet_file, 'r') as tweet_file:
 		for line in tweet_file:
 			line = line.strip()
+			if len(line) == 0:
+				continue
 			tweets.append(line)
+			i += 1
+			if i > parser.num_lines:
+				break
 
 	print generatePoem(tweets, parser.form)
 

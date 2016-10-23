@@ -1,7 +1,7 @@
 import stringToNumber as s2n
 # only input of size 6
 cmudict = {}
-rhymdict = {}
+
 vowels = ['AH0', 'IH2', 'EY1', 'AA1', 'ER0', 'EH0', 'AO2', 'AA0',
 			'EH1', 'AA2','IY2','AE1', 'OW2', 'IY0', 'IY0', 'IH0',
 			'AE2','OW1','OW0','EY0','AW2', 'AW1', 'UW1','IY1','EY2',
@@ -10,7 +10,7 @@ vowels = ['AH0', 'IH2', 'EY1', 'AA1', 'ER0', 'EH0', 'AO2', 'AA0',
 			'OY0','UH0','AW0']
 
 def find_rhyme(correct):
-
+	rhymdict = {}
 	cmudict = s2n.todict()
 	
 	for sentence in correct:
