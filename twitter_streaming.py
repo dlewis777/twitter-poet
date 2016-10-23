@@ -17,7 +17,7 @@ api = tweepy.API(auth)
 stuff = api.user_timeline(id = sys.argv[1], count = sys.argv[2], include_rts = False)
 
 for status in stuff:
-    print status.text.encode('ascii', 'ignore')
+    print status.text.encode('ascii', 'ignore') + "\n"
 
 
-api.update_status('Greetings, Traveler')
+#api.update_status('roses are red\nviolets are blue\nyou smell like a pumpkin\nand a smelly old shoe')
