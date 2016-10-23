@@ -18,6 +18,7 @@ def find_rhyme(correct):
 		rhymdict[sentence] = []
 
 		final = sentence.split()[-1]
+		final = final.lower()
 		syl = cmudict[final]
 		
 		finalsyl = ''
@@ -34,7 +35,8 @@ def find_rhyme(correct):
 			if other is not sentence:
 
 				otherfinal = other.split()[-1]
-				print(otherfinal)
+				#print(otherfinal)
+				otherfinal = otherfinal.lower()
 				ofp = cmudict[otherfinal]
 				othersyl = ''
 				ending2 = []

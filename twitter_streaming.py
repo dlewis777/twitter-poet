@@ -13,11 +13,12 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
 
 api = tweepy.API(auth)
-
-stuff = api.user_timeline(id = sys.argv[1], count = sys.argv[2], include_rts = False)
-
-for status in stuff:
-    print status.text.encode('ascii', 'ignore') + "\n"
+new_tweets = api.user_timeline(id = sys.argv[1], count = 200, include_rts = False)
+while len(new_tweets) > 0:
+	for tweet in new_tweets:
+		print tweet.text.encode('ascii', 'ignore') + "\n"
+	oldest = new_tweets[-1].id - 1
+	new_tweets = api.user_timeline(id = sys.argv[1], count=200, max_id = oldest, include_rts=False)
 
 
 #api.update_status('roses are red\nviolets are blue\nyou smell like a pumpkin\nand a smelly old shoe')

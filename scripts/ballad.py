@@ -13,16 +13,20 @@ def generate(eight, six, n):
 	stanza = []
 	for i in range(n):
 		l1 = random.choice(tempe.keys())
-		tempe.remove(l1)
+		if l1 in tempe:
+			tempe.pop(l1)
 		l2 = random.choice(temps.keys())
-		temps.remove(l2)
+		if l2 in temps:
+			temps.pop(l2)
 		for key in temps.keys():
 			if l2 in temps[key]:
 				temps[key].remove(l2)
 		l3 = random.choice(tempe.keys())
-		tempe.remove(l3)
+		if l3 in tempe:
+			tempe.pop(l3)
 		l4 = random.choice(l2)
-		temps.remove(l4)
+		if l4 in temps:
+			temps.pop(l4)
 		for key in temps.keys():
 			if l4 in temps[key]:
 				temps[key].remove(l4)

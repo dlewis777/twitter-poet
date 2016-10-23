@@ -2,6 +2,7 @@ import sys
 import argparse
 import matcher
 import stringToNumber
+import ballad
 
 def checkArgs(parser):
 	if not parser.meter.upper() in matcher.METERS:
@@ -13,19 +14,44 @@ def checkArgs(parser):
 def makeArgs():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--tweet-file', type=str, required=True, help="File containing tweets to choose from")
-	parser.add_argument("--meter", type=str, required=True, help="The meter for the poem, e.g. iambic")
-	parser.add_argument("--num-lines", type=str, required=True, help="the length of the poem in lines")
+	parser.add_argument("--meter", type=str, required=False, help="The meter for the poem, e.g. iambic")
+	parser.add_argument("--num-lines", type=str, required=False, help="the length of the poem in lines")
+	parser.add_argument("--form", type=str, required=True, help="form of the poem")
 	args = parser.parse_args()
-	if not checkArgs(args):
-		exit(1)
+	#if not checkArgs(args):
+	#	exit(1)
 	return args
 
 
+def getOfMeter(meter, tweets):
+	pattern = matcher.Matcher(meter)
+	valid_chunks = set()
+	for tweet in tweets:
+		chunks = stringToNumber.tweet2chunk(tweet)
+		for chunk in chunks:
+			subchunks = stringToNumber.cutToSize(chunk, pattern.getSyllableCount())
+			for subchunk in subchunks:
+				if pattern.matches(stringToNumber.l2n(subchunk)):
+					if not subchunk in valid_chunks:
+						valid_chunks.add(subchunk)	
+	return list(valid_chunks)
+
+def generateBallad(tweets):
+	tetra = getOfMeter(matcher.METERS["IAMBIC_TETRAMETER"], tweets)
+	tri = getOfMeter(matcher.METERS["IAMBIC_TRIMETER"], tweets)
+	#print tetra
+	#print tri
+	balladLines = ballad.generate(tetra, tri, 4)
+	return balladLines[0]
+
+def generatePoem(tweets, form):
+	if form.lower() == "ballad":
+		return generateBallad(tweets)
+	else:
+		return
+
 
 def main():
-	#patterns = ["0101010101"]
-	#pattern = matcher.Matcher(matcher.METERS["IAMBIC_PENTAMETER"])
-	#print pattern.matches(patterns[0])
 	tweets = []
 	stringToNumber.todict()
 	parser = makeArgs()
@@ -33,23 +59,8 @@ def main():
 		for line in tweet_file:
 			line = line.strip()
 			tweets.append(line)
-	pattern = matcher.Matcher(matcher.METERS[parser.meter.upper()])
-	valid_chunks = set()
-	for tweet in tweets:
-		chunks = stringToNumber.tweet2chunk(tweet)
-		#print tweet
-		#print chunks
-		#print ""
-		for chunk in chunks:
-			subchunks = stringToNumber.cutToSize(chunk, pattern.getSyllableCount())
-			for subchunk in subchunks:
-				if pattern.matches(stringToNumber.l2n(subchunk)):
-					if not subchunk in valid_chunks:
-						valid_chunks.add(subchunk)
-			#print chunk + " : " + stringToNumber.l2n(chunk)
-		#print ""
 
-	print valid_chunks
+	print generatePoem(tweets, parser.form)
 
 
 
