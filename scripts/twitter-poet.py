@@ -3,6 +3,7 @@ import argparse
 import matcher
 import stringToNumber
 import ballad
+import pickle
 
 def checkArgs(parser):
 	if not parser.meter.upper() in matcher.METERS:
@@ -17,6 +18,10 @@ def makeArgs():
 	parser.add_argument("--meter", type=str, required=False, help="The meter for the poem, e.g. iambic")
 	parser.add_argument("--num-lines", type=int, required=False, help="the length of the poem in lines")
 	parser.add_argument("--form", type=str, required=True, help="form of the poem")
+	parser.add_argument("--num-poems", type=int, required=True, help="number of poems")
+	parser.add_argument("--save-file", type=str, required=False, help="file to save tetra,tri in", default=None)
+	parser.add_argument("--load-file", type=str, required=False, help="file to load tetra, tri from", default=None)
+	
 	args = parser.parse_args()
 	#if not checkArgs(args):
 	#	exit(1)
@@ -40,19 +45,30 @@ def getOfMeter(meter, tweets):
 			print i
 	return list(valid_chunks)
 
-def generateBallad(tweets):
+def generateBallad(tweets, times, save_file=None):
 	tetra = getOfMeter(matcher.METERS["IAMBIC_TETRAMETER"], tweets)
 	tri = getOfMeter(matcher.METERS["IAMBIC_TRIMETER"], tweets)
-	#print tetra
-	#print tri
-	balladLines = ballad.generate(tetra, tri, 4)
-	return balladLines[0]
+	if not save_file == None:
+		pickle.dump[(tetra, tri), save_file]
+	ballads = []
+	for _ in range(times):
+		ballads.append(ballad.generate(tetra, tri, 4))
+	return ballads
 
-def generatePoem(tweets, form):
+def generatePoem(tweets, form, num, save_file=None):
 	if form.lower() == "ballad":
-		return generateBallad(tweets)
+		return generateBallad(tweets, num)
 	else:
 		return
+
+def genBalladFromLoad(loadfile, times):
+	itemlist = pickle.load(loadfile)
+	tetra = itemlist[0]
+	tri = itemlist[1]
+	ballads = []
+	for _ in range(times):
+		ballads.append(ballad.generate(tetra, tri, 4))
+	return ballads
 
 
 def main():
@@ -60,17 +76,21 @@ def main():
 	stringToNumber.todict()
 	parser = makeArgs()
 	i = 0
-	with open(parser.tweet_file, 'r') as tweet_file:
-		for line in tweet_file:
-			line = line.strip()
-			if len(line) == 0:
-				continue
-			tweets.append(line)
-			i += 1
-			if i > parser.num_lines:
-				break
+	if parser.load_file == None:
+		with open(parser.tweet_file, 'r') as tweet_file:
+			for line in tweet_file:
+				line = line.strip()
+				if len(line) == 0:
+					continue
+				tweets.append(line)
+				i += 1
+				if i > parser.num_lines:
+					break
 
-	print generatePoem(tweets, parser.form)
+		generatePoem(tweets, parser.form, parser.num_poems, parser.save_file)
+			#print " ".join(poem)
+	else:
+		genBalladFromLoad(parser.load_file)
 
 
 

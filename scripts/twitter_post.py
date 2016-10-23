@@ -1,6 +1,10 @@
 import tweepy
 import os
 import sys
+import ballad
+import pickle
+import stringToNumber
+import rhyme
 
 access_token = os.environ["hophacks_f16_twitter_akey"]
 access_secret = os.environ["hophacks_f16_twitter_asecret"]
@@ -8,18 +12,22 @@ consumer_key = os.environ["hophacks_f16_twitter_ckey"]
 consumer_secret= os.environ["hophacks_f16_twitter_csecret"]
 #@realDonaldTrump id is 25073877
 #@HillaryClinton id is 1339835893
-#@kanyewest 169686021
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
 
 api = tweepy.API(auth)
-new_tweets = api.user_timeline(id = sys.argv[1], count = 200, include_rts = False)
-while len(new_tweets) > 0:
-	for tweet in new_tweets:
-		print tweet.text.encode('ascii', 'ignore') + "\n"
-	oldest = new_tweets[-1].id - 1
-	new_tweets = api.user_timeline(id = sys.argv[1], count=200, max_id = oldest, include_rts=False)
 
+f1 = open('8_dt.txt','r+w')
+f2 = open('6_dt.txt','r+w')
+eight = pickle.load(f1)
+six = pickle.load(f2)
 
-#api.update_status('roses are red\nviolets are blue\nyou smell like a pumpkin\nand a smelly old shoe')
+stanza = ballad.generate(eight,six,4)
+
+s = ''
+for thing in stanza:
+
+    s += thing + '\n\n'
+
+api.update_status(s)
