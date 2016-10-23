@@ -17,6 +17,8 @@ def makeArgs():
 	parser.add_argument("--meter", type=str, required=False, help="The meter for the poem, e.g. iambic")
 	parser.add_argument("--num-lines", type=int, required=False, help="the length of the poem in lines")
 	parser.add_argument("--form", type=str, required=True, help="form of the poem")
+	parser.add_argument("--num-poems", type=int, required=True, help="number of poems")
+	
 	args = parser.parse_args()
 	#if not checkArgs(args):
 	#	exit(1)
@@ -40,17 +42,17 @@ def getOfMeter(meter, tweets):
 			print i
 	return list(valid_chunks)
 
-def generateBallad(tweets):
+def generateBallad(tweets, times):
 	tetra = getOfMeter(matcher.METERS["IAMBIC_TETRAMETER"], tweets)
 	tri = getOfMeter(matcher.METERS["IAMBIC_TRIMETER"], tweets)
-	#print tetra
-	#print tri
-	balladLines = ballad.generate(tetra, tri, 4)
-	return balladLines[0]
+	ballads = []
+	for _ in range(times):
+		ballads.append(ballad.generate(tetra, tri, 4))
+	return ballads
 
 def generatePoem(tweets, form):
 	if form.lower() == "ballad":
-		return generateBallad(tweets)
+		return "\n".join(generateBallad(tweets))
 	else:
 		return
 
@@ -70,7 +72,8 @@ def main():
 			if i > parser.num_lines:
 				break
 
-	print generatePoem(tweets, parser.form)
+	for poem in generatePoem(tweets, parser.form, parser.num_poems)
+		print " ".join(poem)
 
 
 

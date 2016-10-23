@@ -46,7 +46,7 @@ def generate(eight, six, n):
 				temps[key].remove(l4)
 
 		s = l1 + '\n' + l2 + '\n' + l3 + '\n' + l4
-		print s
+		#print s
 		stanza.append(s)
 
 	return stanza

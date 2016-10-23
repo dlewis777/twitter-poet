@@ -8,6 +8,7 @@ consumer_key = os.environ["hophacks_f16_twitter_ckey"]
 consumer_secret= os.environ["hophacks_f16_twitter_csecret"]
 #@realDonaldTrump id is 25073877
 #@HillaryClinton id is 1339835893
+#@kanyewest 169686021
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
