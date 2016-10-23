@@ -52,7 +52,7 @@ def generateBallad(tweets, times):
 
 def generatePoem(tweets, form):
 	if form.lower() == "ballad":
-		return "\n".join(generateBallad(tweets))
+		return generateBallad(tweets)
 	else:
 		return
 
